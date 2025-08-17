@@ -1,1 +1,0 @@
-import{_ as s,c as t,e as o,d as a}from"./index-y9OnA89O.js";const n={},c={class:"about"};function r(_,e){return a(),t("div",c,e[0]||(e[0]=[o("h1",null,"This is an about page",-1)]))}const d=s(n,[["render",r]]);export{d as default};
