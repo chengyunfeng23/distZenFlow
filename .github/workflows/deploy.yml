@@ -1,0 +1,6 @@
+steps:
+  - uses: actions/checkout@v4
+  - uses: actions/jekyll-build-pages@v1
+    with:
+      source: ./  # Jekyll 源文件目录
+      destination: ./  # 输出目录
