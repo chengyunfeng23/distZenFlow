@@ -97,19 +97,21 @@ const nodeTypes = ref([
 const nodes = ref([])
 const connections = ref([])
 const canvasSize = ref()
+// 获取所有节点
 function getNodesValue(value: any) {
   nodes.value = value
-  console.log(value);
 
 }
+// 获取所有连线
 const getConnectionsValue = (value: any) => {
   connections.value = value
-  console.log(value);
 
 }
+// 获取画布大小
 const getcanvasSize = (e) => {
   canvasSize.value = e
 }
+// 开始预览
 const saveNodes = (e) => {
   console.log(CdialogRef.value);
 
