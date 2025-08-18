@@ -36,6 +36,10 @@ A modern flowchart editor built with Vue 3 and Element Plus, featuring drag-and-
 ## Features / 功能特性
 
 ### Core Functionality / 核心功能
+<<<<<<< HEAD
+=======
+
+>>>>>>> ea256c10bd6d73fba1747047d9017a8f1c7b7137
 - 🖱️ **Drag-and-drop node creation** / 拖拽式节点创建
 - ➰ **Smart connections** (right-click nodes to create links) / 智能连线（右键点击节点创建连接）
 - 🎨 **Multiple connection styles** (curve and mindmap) / 多种连线样式（曲线和脑图折线）
@@ -43,12 +47,20 @@ A modern flowchart editor built with Vue 3 and Element Plus, featuring drag-and-
 - 📏 **Alignment guides** (automatically shown when moving nodes) / 对齐辅助线（移动节点时自动显示）
 
 ### Interactive Features / 交互功能
+<<<<<<< HEAD
+=======
+
+>>>>>>> ea256c10bd6d73fba1747047d9017a8f1c7b7137
 - 🖱️ **Canvas panning** (hold Space or middle mouse button) / 画布平移（按住空格键或鼠标中键）
 - 🔍 **Zoom control** (mouse wheel or buttons) / 缩放控制（鼠标滚轮或按钮）
 - ↕️ **Node resizing** (with aspect ratio locking) / 节点大小调整（支持锁定比例）
 - 🗂️ **Layer management** (quick node selection) / 图层管理（快速选择节点）
 
 ### Editing Tools / 编辑工具
+<<<<<<< HEAD
+=======
+
+>>>>>>> ea256c10bd6d73fba1747047d9017a8f1c7b7137
 - ↩️ **Undo/Redo** (full operation history) / 撤销/重做（完整操作历史）
 - ✂️ **Copy/Paste** nodes / 复制/粘贴节点
 - 🗑️ **Delete** nodes and connections / 删除节点和连线
@@ -67,7 +79,10 @@ A modern flowchart editor built with Vue 3 and Element Plus, featuring drag-and-
 ### 组件使用方法
 
 ```vue
+<<<<<<< HEAD
 
+=======
+>>>>>>> ea256c10bd6d73fba1747047d9017a8f1c7b7137
 <template>
   <div style="background-color: #F1F1F1;height: 100vh;">
     <CflowEditorLoader @getcanvasSize="getcanvasSize" @getConnectionsValue="getConnectionsValue" @saveNodes='saveNodes'
@@ -95,6 +110,7 @@ const nodeTypes = ref([
 const nodes = ref([])
 const connections = ref([])
 const canvasSize = ref()
+<<<<<<< HEAD
 function getNodesValue(value: any) {
   nodes.value = value
   console.log(value);
@@ -108,6 +124,23 @@ const getConnectionsValue = (value: any) => {
 const getcanvasSize = (e) => {
   canvasSize.value = e
 }
+=======
+// 获取所有节点
+function getNodesValue(value: any) {
+  nodes.value = value
+
+}
+// 获取所有连线
+const getConnectionsValue = (value: any) => {
+  connections.value = value
+
+}
+// 获取画布大小
+const getcanvasSize = (e) => {
+  canvasSize.value = e
+}
+// 开始预览
+>>>>>>> ea256c10bd6d73fba1747047d9017a8f1c7b7137
 const saveNodes = (e) => {
   console.log(CdialogRef.value);
 
