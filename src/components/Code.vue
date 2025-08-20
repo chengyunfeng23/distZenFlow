@@ -32,6 +32,7 @@ const initCode = async () => {
       .replace(/\\r/g, "")
       // 第二步：移除所有实际的\r字符
       .replace(/\r/g, "")
+      .replace(/^export default "/, '')
       // 第三步：处理其他转义符和包装
       .replace(/^export default "["“]/, "") // 处理开头的包装（包含全角引号）
       .replace(/["”]$/, "") // 处理结尾的引号（包含全角引号）
