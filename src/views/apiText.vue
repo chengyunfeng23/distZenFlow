@@ -155,7 +155,7 @@ const loadAndRenderMarkdown = async () => {
     loading.value = true;
     error.value = "";
 
-    const response = await fetch(`${resolveCodePath(props.mdFilePath)}?raw`);
+    const response = await fetch(`${props.mdFilePath}?raw`);
 
     if (!response.ok) {
       throw new Error(`无法加载文件: ${response.statusText}`);

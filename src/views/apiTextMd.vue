@@ -1,5 +1,5 @@
 <template>
-    <apiText :mdFilePath="'/README.md'"></apiText>
+    <apiText :mdFilePath="'public/vue/README.md'"></apiText>
 </template>
 
 <script setup lang="ts">
