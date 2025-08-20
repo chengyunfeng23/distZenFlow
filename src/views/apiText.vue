@@ -4,8 +4,8 @@
     <div class="sidebar">
       <div class="toc-header">目录</div>
       <div class="toc-content">
-        <div 
-          v-for="(item, index) in tocItems" 
+        <div
+          v-for="(item, index) in tocItems"
           :key="index"
           class="toc-item"
           :class="{
@@ -14,7 +14,7 @@
             'toc-h3': item.level === 3,
             'toc-h4': item.level === 4,
             'toc-h5': item.level === 5,
-            'toc-h6': item.level === 6
+            'toc-h6': item.level === 6,
           }"
           @click="scrollToHeading(item.id)"
         >
@@ -27,14 +27,14 @@
     <div class="markdown-preview">
       <!-- 加载状态 -->
       <div v-if="loading" class="loading">加载中...</div>
-      
+
       <!-- 错误提示 -->
       <div v-else-if="error" class="error">{{ error }}</div>
-      
+
       <!-- Markdown 渲染结果 -->
-      <div 
-        v-else 
-        class="content" 
+      <div
+        v-else
+        class="content"
         v-html="renderedMarkdown"
         ref="contentRef"
       ></div>
@@ -43,21 +43,52 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue';
-import { marked } from 'marked';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github-dark.css';
+import { ref, onMounted, nextTick } from "vue";
+import { marked } from "marked";
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css";
+const resolveCodePath = (inputPath: string): string => {
+  if (!inputPath) return inputPath;
+  // 非以 / 开头的直接返回（相对路径）
+  if (!inputPath.startsWith("/")) return inputPath;
 
+  // 开发环境直接用原始路径
+  if (import.meta.env.DEV) return inputPath;
+
+  // 优先使用 Vite 的 BASE_URL（例如 /repoName/ 或 ./）
+  const base = import.meta.env.BASE_URL || "/";
+  const trimmedBase = base.endsWith("/") ? base.slice(0, -1) : base; // 去除末尾斜杠
+
+  // 如果 BASE_URL 是有效的以 / 开头的路径（如 /repoName）则直接拼接
+  if (
+    trimmedBase &&
+    trimmedBase !== "." &&
+    trimmedBase !== "/" &&
+    trimmedBase.startsWith("/")
+  ) {
+    return `${trimmedBase}${inputPath}`;
+  }
+
+  // 否则尝试从 GitHub Pages 的路径中推断仓库名：/repoName/xxx
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  if (segments.length > 0) {
+    const repo = `/${segments[0]}`; // 取第一段作为仓库名
+    return `${repo}${inputPath}`;
+  }
+
+  // 兜底：返回原始路径
+  return inputPath;
+};
 // 配置 marked 使用 highlight.js 高亮代码
 marked.setOptions({
-  highlight: function(code, lang) {
+  highlight: function (code, lang) {
     if (lang && hljs.getLanguage(lang)) {
       return hljs.highlight(code, { language: lang }).value;
     }
     return hljs.highlightAuto(code).value;
   },
   breaks: true,
-  gfm: true
+  gfm: true,
 });
 
 // 接收外部传入的 Markdown 文件路径
@@ -66,38 +97,38 @@ const props = defineProps<{
 }>();
 
 const loading = ref(true);
-const error = ref('');
-const renderedMarkdown = ref('');
+const error = ref("");
+const renderedMarkdown = ref("");
 const contentRef = ref<HTMLElement>();
-const tocItems = ref<Array<{id: string, text: string, level: number}>>([]);
+const tocItems = ref<Array<{ id: string; text: string; level: number }>>([]);
 
 // 提取目录项
 const extractToc = (htmlContent: string) => {
-  const tempDiv = document.createElement('div');
+  const tempDiv = document.createElement("div");
   tempDiv.innerHTML = htmlContent;
-  
-  const headings = tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6');
-  const toc: Array<{id: string, text: string, level: number}> = [];
-  
+
+  const headings = tempDiv.querySelectorAll("h1, h2, h3, h4, h5, h6");
+  const toc: Array<{ id: string; text: string; level: number }> = [];
+
   headings.forEach((heading, index) => {
     const level = parseInt(heading.tagName.charAt(1));
-    const text = heading.textContent || '';
+    const text = heading.textContent || "";
     const id = `heading-${index}`;
-    
+
     // 为标题添加 id 属性
     heading.id = id;
-    
+
     toc.push({ id, text, level });
   });
-  
+
   // 更新 HTML 内容（包含 id）
   renderedMarkdown.value = tempDiv.innerHTML;
   tocItems.value = toc;
-  
+
   // 等待 DOM 更新后重新应用代码高亮
   nextTick(() => {
     if (contentRef.value) {
-      const codeBlocks = contentRef.value.querySelectorAll('pre code');
+      const codeBlocks = contentRef.value.querySelectorAll("pre code");
       codeBlocks.forEach((block) => {
         if (block.textContent) {
           hljs.highlightElement(block as HTMLElement);
@@ -111,9 +142,9 @@ const extractToc = (htmlContent: string) => {
 const scrollToHeading = (id: string) => {
   const element = document.getElementById(id);
   if (element) {
-    element.scrollIntoView({ 
-      behavior: 'smooth', 
-      block: 'start' 
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
     });
   }
 };
@@ -122,24 +153,23 @@ const scrollToHeading = (id: string) => {
 const loadAndRenderMarkdown = async () => {
   try {
     loading.value = true;
-    error.value = '';
-    
-    const response = await fetch(`${props.mdFilePath}?raw`);
-    
+    error.value = "";
+
+    const response = await fetch(`${resolveCodePath(props.mdFilePath)}?raw`);
+
     if (!response.ok) {
       throw new Error(`无法加载文件: ${response.statusText}`);
     }
-    
+
     const mdContent = await response.text();
     const htmlContent = marked.parse(mdContent);
-    
+
     // 等待 DOM 更新后提取目录
     await nextTick();
     extractToc(htmlContent);
-    
   } catch (err) {
-    error.value = err instanceof Error ? err.message : '加载失败';
-    console.error('Markdown 加载错误:', err);
+    error.value = err instanceof Error ? err.message : "加载失败";
+    console.error("Markdown 加载错误:", err);
   } finally {
     loading.value = false;
   }
@@ -243,7 +273,8 @@ onMounted(() => {
   min-width: 0;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 40px 0;
 }
@@ -257,7 +288,9 @@ onMounted(() => {
 }
 
 /* 为 Markdown 内容添加基础样式 */
-.content h1, .content h2, .content h3 {
+.content h1,
+.content h2,
+.content h3 {
   margin: 1.5em 0 1em;
   font-weight: 600;
   scroll-margin-top: 20px;
@@ -267,7 +300,8 @@ onMounted(() => {
   margin-bottom: 1em;
 }
 
-.content ul, .content ol {
+.content ul,
+.content ol {
   margin: 1em 0;
   padding-left: 2em;
 }
@@ -287,7 +321,7 @@ onMounted(() => {
   padding: 0;
   border-radius: 0;
   color: #d4d4d4;
-  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: "Fira Code", "Consolas", "Monaco", "Courier New", monospace;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -298,7 +332,7 @@ onMounted(() => {
   color: #d73a49;
   padding: 2px 6px;
   border-radius: 3px;
-  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: "Fira Code", "Consolas", "Monaco", "Courier New", monospace;
   font-size: 0.9em;
   border: 1px solid #e1e4e8;
 }
@@ -412,7 +446,8 @@ onMounted(() => {
   margin: 1em 0;
 }
 
-.content th, .content td {
+.content th,
+.content td {
   border: 1px solid #ddd;
   padding: 8px 12px;
   text-align: left;
@@ -450,19 +485,30 @@ onMounted(() => {
     flex-direction: column;
     padding: 10px;
   }
-  
+
   .sidebar {
     width: 100%;
     position: static;
     max-height: none;
   }
-  
-  .toc-h1 { padding-left: 8px; }
-  .toc-h2 { padding-left: 16px; }
-  .toc-h3 { padding-left: 24px; }
-  .toc-h4 { padding-left: 32px; }
-  .toc-h5 { padding-left: 40px; }
-  .toc-h6 { padding-left: 48px; }
+
+  .toc-h1 {
+    padding-left: 8px;
+  }
+  .toc-h2 {
+    padding-left: 16px;
+  }
+  .toc-h3 {
+    padding-left: 24px;
+  }
+  .toc-h4 {
+    padding-left: 32px;
+  }
+  .toc-h5 {
+    padding-left: 40px;
+  }
+  .toc-h6 {
+    padding-left: 48px;
+  }
 }
 </style>
-      
