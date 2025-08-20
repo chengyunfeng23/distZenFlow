@@ -14,19 +14,19 @@ export default [
     {
         id:'DefaultComponents',
         name:'默认组件',
-        code:`/dist/vue/DefaultComponents.vue`,
+        code:`vue/DefaultComponents.vue`,
         component:DefaultComponents
     },
     {
         id:'CustomizeDragAndDropNodesOnTheRight',
         name:'自定义右边拖拽节点',
-        code:`/dist/vue/CustomizeDragAndDropNodesOnTheRight.vue`,
+        code:`vue/CustomizeDragAndDropNodesOnTheRight.vue`,
         component:CustomizeDragAndDropNodesOnTheRight
     },
     {
         id:'Html',
         name:'自定义画布的节点样式',
-        code:`/dist/vue/Html.vue`,
+        code:`vue/Html.vue`,
         component:Html
     }
 ]

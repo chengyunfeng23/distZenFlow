@@ -45,40 +45,10 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
 import { marked } from "marked";
+import resolveCodePath from '../ulits/app'
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
-const resolveCodePath = (inputPath: string): string => {
-  if (!inputPath) return inputPath;
-  // 非以 / 开头的直接返回（相对路径）
-  if (!inputPath.startsWith("/")) return inputPath;
 
-  // 开发环境直接用原始路径
-  if (import.meta.env.DEV) return inputPath;
-
-  // 优先使用 Vite 的 BASE_URL（例如 /repoName/ 或 ./）
-  const base = import.meta.env.BASE_URL || "/";
-  const trimmedBase = base.endsWith("/") ? base.slice(0, -1) : base; // 去除末尾斜杠
-
-  // 如果 BASE_URL 是有效的以 / 开头的路径（如 /repoName）则直接拼接
-  if (
-    trimmedBase &&
-    trimmedBase !== "." &&
-    trimmedBase !== "/" &&
-    trimmedBase.startsWith("/")
-  ) {
-    return `${trimmedBase}${inputPath}`;
-  }
-
-  // 否则尝试从 GitHub Pages 的路径中推断仓库名：/repoName/xxx
-  const segments = window.location.pathname.split("/").filter(Boolean);
-  if (segments.length > 0) {
-    const repo = `/${segments[0]}`; // 取第一段作为仓库名
-    return `${repo}${inputPath}`;
-  }
-
-  // 兜底：返回原始路径
-  return inputPath;
-};
 // 配置 marked 使用 highlight.js 高亮代码
 marked.setOptions({
   highlight: function (code, lang) {
@@ -155,7 +125,7 @@ const loadAndRenderMarkdown = async () => {
     loading.value = true;
     error.value = "";
 
-    const response = await fetch(`${props.mdFilePath}?raw`);
+    const response = await fetch(`${resolveCodePath(props.mdFilePath)}?raw`);
 
     if (!response.ok) {
       throw new Error(`无法加载文件: ${response.statusText}`);

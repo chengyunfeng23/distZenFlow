@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import Prism from "vue-prism-component";
-
+import resolveCodePath from '../ulits/app'
 import "prismjs/themes/prism-tomorrow.css";
 import { ref, watch } from "vue";
 type Props = {
@@ -21,7 +21,8 @@ const code = ref(``);
 //这样就可以直接显示代码了
 const initCode = async () => {
   try {
-    const resolved =props.codeValue
+    const resolved =resolveCodePath(props.codeValue)
+    console.log(resolved);
     
     const response = await fetch(resolved + "?raw");
     if (!response.ok) throw new Error("文件不存在");
@@ -47,7 +48,6 @@ const initCode = async () => {
     // 如果找到</style>标签，只保留到标签结束
     if (styleEndIndex !== -1) {
       code.value = processed.substring(0, styleEndIndex + "</style>".length);
-      console.log(code.value);
       
     }
   } catch (error) {
