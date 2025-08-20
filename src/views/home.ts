@@ -8,7 +8,7 @@ export type HomeViewItem = {
     code:string,
     component:()=>any
 }
-
+const gitName = 'distZenFlow'
 export default [
     {
         id:'DefaultComponents',
