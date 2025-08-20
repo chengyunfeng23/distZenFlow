@@ -5,7 +5,7 @@ export default function resolveCodePath(inputPath:string) {
     if (process.env.NODE_ENV === 'development') {
         return `public/${inputPath}`;
     } else {
-        return inputPath
+        return inputPath + ''
         // return `dist/${inputPath}`;
     }
 }
