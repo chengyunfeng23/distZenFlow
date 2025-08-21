@@ -1,3 +1,6 @@
+# 联系作者:qq1476466395(MEISNULL) 
+![图片描述](/wx2.jpg)
+
 ## 使用cyf-flow
 
 ## 1.安装
@@ -19,6 +22,7 @@ app.use(cyfFlow)
 ## 3.api介绍
 
 ```ts
+//node里面的x y width height 一定要是数字 number类型
 type Props = {
   bg: string //背景图片
   isConnectionType: boolean //是否开启连线
@@ -27,6 +31,8 @@ type Props = {
   height: number//画布高度
   connections: any[] //连接线数据
   isShowConfig:boolean //是否显示配置面板
+  isCzsm: boolean//是否显示操作说明
+  isRightConfig: boolean//是否显示右侧配置面板（自定义--选择单独节点后显示自定义配置面板）
   nodesValue: {//节点数据
     type: Array
     default: () => []
@@ -100,4 +106,5 @@ const connections = [
     },
   ];
 ```
+
 

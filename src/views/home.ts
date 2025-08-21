@@ -2,6 +2,7 @@
 import DefaultComponents from './DefaultComponents.vue'
 import CustomizeDragAndDropNodesOnTheRight from './CustomizeDragAndDropNodesOnTheRight.vue'
 import Html from './Html.vue'
+import CustomizeTheRightSidebar from './CustomizeTheRightSidebar.vue'
 export type HomeViewItem = {
     name:string,
     id:string,
@@ -28,5 +29,11 @@ export default [
         name:'自定义画布的节点样式',
         code:`vue/Html.vue`,
         component:Html
+    },
+    {
+        id:'CustomizeTheRightSidebar',
+        name:'自定义右边栏',
+        code:`vue/CustomizeTheRightSidebar.vue`,
+        component:CustomizeTheRightSidebar
     }
 ]
