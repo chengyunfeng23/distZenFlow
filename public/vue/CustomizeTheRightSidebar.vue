@@ -17,7 +17,6 @@
      
       <template #right-config="{ selectNode }">
         <p>节点名称 ：<el-input type="text" v-model="selectNode.label" /></p>
-        <p>节点位置 ：<el-input type="text" v-model="selectNode.x" /></p>
       </template>
     </CflowEditorLoader>
   </div>
@@ -29,7 +28,7 @@ const CdialogRef = ref();
 const ishow = ref(true);
 const boxRef = ref();
 const nodeTypes = ref([
-  { type: "start", label: "节点", width: 50, height: 50, color: "green" },
+  { type: "start", label: "", width: 50, height: 50, color: "pink" },
 ]);
 const CflowEditorLoaderRef = ref();
 
