@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       cyf-flow:
-        specifier: ^1.2.12
-        version: 1.2.12(typescript@5.8.3)
+        specifier: ^1.3.4
+        version: 1.3.4(typescript@5.8.3)
       element-plus:
         specifier: ^2.10.7
         version: 2.10.7(vue@3.5.18(typescript@5.8.3))
@@ -842,8 +842,8 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-  cyf-flow@1.2.12:
-    resolution: {integrity: sha512-NkaKLac/9c5sipNKCoUmE/7qlg3/yAOMl/gx3vbHH4YnEOKw5Garw0nRxkEcYIyGGQsYxiAGurUVI9356Bvi3A==}
+  cyf-flow@1.3.4:
+    resolution: {integrity: sha512-+5CJv/Syo2wJIGCT3nxX4DEe0TpEBoYY2EqxE1lc5Ywi5R7X7vb/3syoQ8j8P+twkIQIpFFvB/ZVfIMSOTq7tA==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   dayjs@1.11.13:
@@ -2381,7 +2381,7 @@ snapshots:
 
   csstype@3.1.3: {}
 
-  cyf-flow@1.2.12(typescript@5.8.3):
+  cyf-flow@1.3.4(typescript@5.8.3):
     dependencies:
       '@element-plus/icons-vue': 2.3.2(vue@3.5.18(typescript@5.8.3))
       element-plus: 2.10.7(vue@3.5.18(typescript@5.8.3))

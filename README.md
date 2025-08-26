@@ -27,8 +27,10 @@ type Props = {
   bg: string //背景图片
   isConnectionType: boolean //是否开启连线
   nodeTypes: NodeType[] //节点类型
-  width: number//画布宽度
-  height: number//画布高度
+  canvasSize: {
+    width: number
+    height: number
+  }//画布的宽高
   connections: any[] //连接线数据
   isShowConfig:boolean //是否显示配置面板
   isCzsm: boolean//是否显示操作说明
@@ -39,11 +41,13 @@ type Props = {
   }
 }
 type Emit = {
+    delNodes:()=>void//删除节点触发
     editNode:()=>void// 双击节点
     handleDragMove:()=>void//节点移动的时候触发
     getcanvasSize:()=>void//获取画布大小
     getConnectionsValue:()=>void//获取连线数据
     getNodesValue:()=>void//获取nodes节点数据
+    copyNode:()=>void//复制节点触发
 }
 //通过ref调用比如 CflowEditorLoaderRef.value.setNodesConfig(id,key,value)
 type DefineExpose = {
